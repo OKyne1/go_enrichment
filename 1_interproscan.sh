@@ -10,6 +10,7 @@
 
 module purge
 module load Anaconda3/2023.09-0
+# probably not even required if you've correctly built interproscan
 source activate /data/biol-micro-genomics/trop0670/env/interproscan
 
 # If using nucleotide sequence change the -t section from p to n
