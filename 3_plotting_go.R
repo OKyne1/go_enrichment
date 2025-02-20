@@ -3,13 +3,16 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 if (!requireNamespace("topGO", quietly = TRUE))
   BiocManager::install("topGO")
-
+setwd("phd/campylobacter_project/gwas/250103_final_GWAS/4_go_enrichment/go_analysis/")
 library(topGO)
 library(dplyr)
 
+#-------------------------------------------------------------------------------
+# Currently this uses the standard 
+
 # Define input files
-background_file <- "phd/campylobacter_project/gwas/250103_final_GWAS/4_go_enrichment/go_analysis/consolidated_pangenome_interpro.tsv"  # Replace with your background file
-interest_file <- "phd/campylobacter_project/gwas/250103_final_GWAS/4_go_enrichment/go_analysis/consolidated_gene_hits_interscanpro.tsv"  # Replace with your genes of interest file
+background_file <- "consolidated_pangenome_interpro.tsv"  # Replace with your background file
+interest_file <- "consolidated_gene_hits_interscanpro.tsv"  # Replace with your genes of interest file, Just need gene names in column "Gene" in this file
 
 # Load background gene-to-GO mapping
 bg_data <- read.delim(background_file, header = TRUE, sep = "\t")
@@ -37,7 +40,7 @@ run_topGO <- function(ontology, geneList, geneID2GO_list) {
   resultFisher <- runTest(GOdata, algorithm = "classic", statistic = "fisher")
   resultElim <- runTest(GOdata, algorithm = "elim", statistic = "fisher")
   
-  topNodes <- GenTable(GOdata, classic = resultFisher, elim = resultElim, topNodes = 10)
+  topNodes <- GenTable(GOdata, classic = resultFisher, topNodes = 10) # change this based on the type of analysis desired, resultElim or resultFisher
   return(topNodes)
 }
 
@@ -101,6 +104,3 @@ ggplot(top_go_terms, aes(x = Term, y = log_p_value, fill = Ontology)) +
        x = "GO Term", y = "-log10(p-value)") +
   theme_minimal() +
   theme(legend.position = "none")  # Hide legend, since color is already used for facets
-
-#-------------------------------------------------------------------------------
-
