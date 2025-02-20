@@ -11,3 +11,7 @@
 2. Run consolidate_interproscan.py to reformat the output tsv files (at some point this should probably just be included in the R script)
 
 3. Run plotting_go.R in R
+
+
+## Choice of background and gene hits
+Background should proabably be the pangenome, but it would also work using a normal genome (this should probably the first reference genome used in pyseer).
